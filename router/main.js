@@ -31,8 +31,8 @@ module.exports = function(app, tigers) {
     res.send(getTigers(tigers));
   });
   function getTigers(tigers) {
-    let tgs = "";
-    for (let i = 0; i < tigers.length; i++) {
+    var tgs = "";
+    for (var i = 0; i < tigers.length; i++) {
       tgs += "<li>" + tigers[i] + "</li>";
     }
     return `<col>${tgs}</col>`;
