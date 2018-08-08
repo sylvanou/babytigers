@@ -35,6 +35,6 @@ module.exports = function(app, tigers) {
     for (var i = 0; i < tigers.length; i++) {
       tgs += "<li>" + tigers[i] + "</li>";
     }
-    return `<col>${tgs}</col>`;
+    return "<col>" + tgs + "</col>";
   }
 };
