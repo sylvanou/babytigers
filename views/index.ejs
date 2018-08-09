@@ -1,0 +1,12 @@
+<% include header.ejs %>
+  <ol>
+    <% tigers.forEach(function(tiger, i) { %>
+    <li <% if(i % 2 != 0) { %> style="background-color:#c1c1c1;" <% }
+      %> >
+        <%= tiger %>
+    </li>
+    <% }); %>
+  </ol>
+
+  <p>You are logged in as <%= username %></p>
+ <% include footer.ejs %>

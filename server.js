@@ -1,6 +1,13 @@
 const express = require("express");
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const app = express();
+
 const tigers = ["tiger1", "tiger2", "tiger3", "tiger4", "tiger5"];
+
+app.use(cookieParser());
+app.use(session({secret: 'qwerty', pageViews: 1}));
+
 require("./router/main")(app, tigers);
 
 app.set("views", __dirname + "/views");
