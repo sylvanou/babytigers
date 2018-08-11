@@ -1,19 +1,41 @@
-const express = require("express");
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const app = express();
+var express = require("express");
+var session = require("express-session");
+var cookieParser = require("cookie-parser");
+var fs = require("fs");
+var app = express();
 
-const tigers = ["tiger1", "tiger2", "tiger3", "tiger4", "tiger5"];
+// var tigers = ["Joe", "Jack", "John", "Jason", "Jeff"];
+// Load the tigers
+var tigers = [];
 
+fs.readFile(__dirname + "/tigers", "utf8", function(err, data) {
+  // Load tigers if there are no errors
+  if (!err) tigers = JSON.parse(data);
+  // console.log("inside:", tigers);
+
+  // include routers
+  require("./router/main")(app, tigers, fs);
+
+  // handle 404 errors
+  app.use(function(req, res) {
+    app.status(404).send("Error 404 not found");
+  });
+  // handle generic errors
+  app.use(function(err, req, res, next) {
+    res.status(500).send("The app found an error. Please try again later");
+  });
+});
+
+// initialize the cookies and session
 app.use(cookieParser());
-app.use(session({secret: 'qwerty', pageViews: 1}));
+app.use(session({ secret: 'qwerty' }));
 
-require("./router/main")(app, tigers);
-
+// initialize the views using ejs
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.engine("html", require("ejs").renderFile);
 
-const server = app.listen(8585, function() {
-  console.log("Hello world");
+// Start server
+var server = app.listen(8585, function() {
+  console.log("Listening on port: 8585");
 });
